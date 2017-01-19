@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="images/favicon.ico">
+
+    <title>device status</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/app.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container">
+
+    <div class="page-header">
+        <h1>device status monitor</h1>
+        <p class="lead">Watch our devices from aws web service</p>
+    </div>
+
+    <div class="panel">
+        <h3>show status only using jQuery</h3>
+    </div>
+
+    <div class="row" style="position: relative">
+        <table id="awesome-table" class="display" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>guid</th>
+                <th>status</th>
+                <th>last heartbeat time</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>guid</th>
+                <th>status</th>
+                <th>last heartbeat time</th>
+            </tr>
+            </tfoot>
+            <tbody id="status-data"></tbody>
+        </table>
+        <div id="loader"></div>
+    </div>
+
+</div> <!-- /container -->
+
+<script id="info-template" type="text/x-handlebars-template">
+    {{#this}}
+    <tr>
+        <td>{{guid}}</td>
+        <td class="{{device_state}}" style="text-align: center;">{{device_state}}</td>
+        <td>{{lastheartbeattime}}</td>
+    </tr>
+    {{/this}}
+</script>
+
+<!-- jquery -->
+<script src="vendor/jquery/jquery.js"></script>
+<!-- spin js -->
+<script src="vendor/spinner/spin.js"></script>
+<!-- jquery plugin for spin js -->
+<script src="vendor/spinner/jquery.spin.js"></script>
+<!-- handlebars for template -->
+<script src="vendor/handlebars/handlebars.js"></script>
+<!-- underscore -->
+<script src="vendor/underscore/underscore.js"></script>
+<!-- Custom javascript for this template -->
+<script src="js/app.js"></script>
+</body>
+</html>

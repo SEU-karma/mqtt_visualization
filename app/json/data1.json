@@ -1,0 +1,29 @@
+{
+  "4265c04a-d87d-11e6-a875-005056ba1867": {
+    "status": "'2017-01-15 12:10:45'",
+    "lastheartbeattime": "2017-01-15 12:10:45",
+    "device_state": "online"
+  },
+  "c095141c-dad9-11e6-890e-005056ba1438": {
+    "status": "'2017-01-15 04:19:06'",
+    "lastheartbeattime": "2017-01-15 04:19:06",
+    "device_state": "offline"
+  },
+  "guids": [
+    "4265c04a-d87d-11e6-a875-005056ba1867",
+    "b3806da8-dad9-11e6-8757-005056ba1438",
+    "c095141c-dad9-11e6-890e-005056ba1438",
+    "c5787a94-d8b0-11e6-8ced-005056ba1867"
+  ],
+  "c5787a94-d8b0-11e6-8ced-005056ba1867": {
+    "status": "'2017-01-15 02:14:51'",
+    "lastheartbeattime": "2017-01-15 02:14:51",
+    "device_state": "offline"
+  },
+  "b3806da8-dad9-11e6-8757-005056ba1438": {
+    "status": "'2017-01-15 04:18:45'",
+    "lastheartbeattime": "2017-01-15 04:18:45",
+    "device_state": "offline"
+  },
+  "devicenum": 4
+}

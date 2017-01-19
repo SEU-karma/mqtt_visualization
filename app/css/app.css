@@ -1,0 +1,61 @@
+h4 {
+    margin-top: 25px;
+}
+
+.row {
+    margin-bottom: 20px;
+}
+
+.row .row {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+[class*="col-"] {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #eee;
+    background-color: rgba(86, 61, 124, .15);
+    border: 1px solid #ddd;
+    border: 1px solid rgba(86, 61, 124, .2);
+}
+
+hr {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+#awesome-table thead th {
+    padding: 10px 18px;
+    border-bottom: 1px solid #111;
+}
+
+#awesome-table tfoot th {
+    padding: 10px 18px 6px 18px;
+    border-top: 1px solid #111;
+}
+
+#awesome-table tbody td {
+    padding: 8px 10px;
+    border-top: 1px solid #ddd;
+}
+
+#awesome-table tbody tr:nth-child(even) {
+    background: #eaeaea
+}
+
+#awesome-table tbody tr:nth-child(odd) {
+    background: #f6f6f6
+}
+
+.online {
+    background-image: url(../images/b_001_24.png);
+    background-repeat: no-repeat;
+    background-position: center left;
+}
+
+.offline {
+    background-image: url(../images/b_002_24.png);
+    background-repeat: no-repeat;
+    background-position: center left;
+}
