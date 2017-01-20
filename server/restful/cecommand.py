@@ -16,8 +16,8 @@ def push_cmd(cmd):
 	cmd['callback_name'] = cmd['callback_name'].encode('utf8')
 	guid = cmd['guid']
 	timeout = 50
-        topic = "commands/" + guid
-        logging.debug("topic:"+topic)
+    topic = "commands/" + guid
+    logging.debug("topic:"+topic)
 	try:
 		client = mqttclient.MqttClient.GetInstance()
 	except Exception, e:
@@ -26,7 +26,7 @@ def push_cmd(cmd):
 	response = {} 
 	response['ack'] = 0
 	response['content'] = json.dumps({'status':'response timeout'})
-        response['guid'] = guid
+    response['guid'] = guid
 	def resultcallback(client, usiqaerdata, message):
 		response['ack'] = 1
 		response['content'] = message.payload
@@ -45,7 +45,7 @@ def push_cmd(cmd):
 		logging.error('publish command fail')
 		logging.error(e)
 	while timeout > 0 and response['ack'] == 0:
-                timeout = timeout - 1
+        timeout = timeout - 1
 		logging.debug('waitting')
 		time.sleep(0.1)
 	logging.debug('push finish')
@@ -54,8 +54,7 @@ def push_cmd(cmd):
 	return response
 
 
-def resultcallback2(client, usiqaerdata, message):
-	print 'qq'
+
 if __name__ == "__main__":
 	cmd = {}
 	cmd['callback_name'] = 'invalid cmd'

@@ -6,7 +6,7 @@ import logging
 import threading
 import uuid
 def mylog(a, userdata, level,buf):
-        logging.debug(buf)
+    logging.debug(buf)
 
 
 class MqttClient():

@@ -20,7 +20,7 @@ logging.basicConfig(filename=log_filename, format=log_format, datefmt='%Y-%m-%d 
 
 class AwsActionListener(threading.Thread):
     def actionCallback(self, client, usiqaerdata, message):
-	logging.debug(message.payload)
+        logging.debug(message.payload)
         result =  json.loads(message.payload)
 
     def run(self):
