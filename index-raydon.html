@@ -1,0 +1,81 @@
+<head>  
+    <title></title>  
+      
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+
+    <style type="text/css">  
+        #divTb  
+        {  
+            width:900px;  
+            border:1px solid #aaa;  
+            margin:0 auto;  
+        }  
+        .even{background:#CCCCCC;}  
+        .odd{background:#FFFFFF;}  
+        .online{background:#44BB5C;}
+        .offline{background:#FF3300;}
+        div{float:left}
+        textarea{resize:none; width:500px;height:600px;}
+    </style>  
+<script type="text/javascript">  
+  
+        function getModuleInfo() {  
+            $.ajax({  
+                type: "GET",  
+                dataType: "json",  
+                url: "/mqtt_demo/restful/devicestatus",  
+                success: function(data) {  
+		$.each(data.guids, function(i, item){
+				var tbBody = ""  
+                                if($("#" + item).length > 0)
+				{
+                                    var callbackname = $("tr#"+item+" input").val();
+	                            tbBody = "<td id='col0'>" + item + "</td>" + "<td class='" + data[item].device_state  + "' id='col1'>" + data[item].device_state + "</td>" + "<td id='col2'>UTC:" + data[item].lastheartbeattime + "</td><td><input type='text' name='callbackname' value='"+ callbackname  +"'/></td><td><button type='button' class='submitcmd' id='" + item +"'>submit</button></td>";			
+                                    $("#" + item).html(tbBody);
+				}
+				else
+                                {
+	                            tbBody = "<td id='col0'>" + item + "</td>" + "<td class='" + data[item].device_state  + "' id='col1'>" + data[item].device_state + "</td>" + "<td id='col2'>UTC:" + data[item].lastheartbeattime + "</td><td><input type='text' name='callbackname' value='invalid command'/></td><td><button type='button' class='submitcmd' id='" + item +"'>submit</button></td>";			
+				    tbRow = "<tr id=" +item + ">"+ tbBody +"</tr>";
+                                    $("#myTb").append(tbRow);
+				}
+				  
+			});
+                },  
+            });  
+        }  
+  
+        $(function() {  
+	    var title = "<tr class='odd'><td>guid</td><td>lastuploadtime</td><td>state</td><td>command</td><td>      </td></tr>";  
+            $("#myTb").append(title);
+            getModuleInfo();
+	    setInterval(getModuleInfo, 10000);
+        });  
+  
+$(document).on('click', 'button', function(){ 
+    var guid= $(this).attr("id")
+    var callbackname = $("tr#"+guid+" input").val();
+    postdata = "{\"callback_name\":\"" + callbackname +"\", \"guid\":\"" + guid + "\"}" 
+    $.post("/mqtt_demo/restful/command",
+    postdata,
+    function(data,status){
+	$("#logger").append("\r\n" + data);
+    });
+      
+}); 
+
+    </script>
+      
+</head>  
+<body>  
+    <div id="divTb" >  
+        <table id="myTb" style=" width:100%">  
+        </table>  
+    </div>  
+    <div>
+        <textarea id="logger" readonly="readonly">Operation Log: </textarea>
+    </div>
+</body>  
+</html>  
+
+
