@@ -61,9 +61,40 @@
             <input type="text" class="form-control" id="callback-text" placeholder="callback name">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-default" id="submit-cmd">Submit</button>
         </div>
     </form>
+
+    <div class="row panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Operation Log</div>
+
+        <!-- Table -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th>log at</th>
+                <th>comment</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>log at</th>
+                <th>comment</th>
+            </tr>
+            </tfoot>
+            <tbody id="log-info">
+            <tr>
+                <td>2017-01-15 12:10:45</td>
+                <td>some action action action action</td>
+            </tr>
+            <tr>
+                <td>2017-01-15 12:10:45</td>
+                <td>some action action action action action</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div> <!-- /container -->
 
