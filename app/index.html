@@ -27,15 +27,15 @@
     <div class="panel">
         <div class="row">
             <div class="col-md-10">
-                <h3>auto reload device status in 10 senconds</h3>
+                <h3>auto reload device status in 10 senconds: <span id="reload-ctrl-text">ON</span></h3>
             </div>
             <div class="col-md-2">
-                <div class="btn-group" data-toggle="buttons">
+                <div class="btn-group" data-toggle="buttons" id="reload-ctrl-btn">
                     <label class="btn btn-success active">
-                        <input type="radio" name="auto-reload" autocomplete="off" checked> ON
+                        <input type="radio" name="auto-reload" autocomplete="off" value="ON" checked> ON
                     </label>
                     <label class="btn btn-danger">
-                        <input type="radio" name="auto-reload" autocomplete="off"> OFF
+                        <input type="radio" name="auto-reload" autocomplete="off" value="OFF"> OFF
                     </label>
                 </div>
             </div>
@@ -79,11 +79,8 @@
         </div>
     </form>
 
-    <div class="row panel panel-default">
-        <!-- Default panel contents -->
+    <div class="row panel panel-default" style="position: relative">
         <div class="panel-heading">Operation Log</div>
-
-        <!-- Table -->
         <table class="table">
             <thead>
             <tr>
@@ -97,17 +94,9 @@
                 <th>comment</th>
             </tr>
             </tfoot>
-            <tbody id="log-info">
-            <tr>
-                <td>2017-01-15 12:10:45</td>
-                <td>some action action action action</td>
-            </tr>
-            <tr>
-                <td>2017-01-15 12:10:45</td>
-                <td>some action action action action action</td>
-            </tr>
-            </tbody>
+            <tbody id="log-info"></tbody>
         </table>
+        <div id="log-loader"></div>
     </div>
 
 </div> <!-- /container -->
@@ -128,8 +117,19 @@
     {{/this}}
 </script>
 
+<script id="log-template" type="text/x-handlebars-template">
+    {{#this}}
+    <tr>
+        <td>{{log_at}}</td>
+        <td>{{log_comment}}</td>
+    </tr>
+    {{/this}}
+</script>
+
 <!-- jquery -->
 <script src="vendor/jquery/jquery.js"></script>
+<!-- bootstrap -->
+<script src="vendor/bootstrap/js/bootstrap.js"></script>
 <!-- spin js -->
 <script src="vendor/spinner/spin.js"></script>
 <!-- jquery plugin for spin js -->
@@ -138,6 +138,8 @@
 <script src="vendor/handlebars/handlebars.js"></script>
 <!-- underscore -->
 <script src="vendor/underscore/underscore.js"></script>
+<!-- moment -->
+<script src="vendor/moment/moment.js"></script>
 <!-- Custom javascript for this template -->
 <script src="js/app.js"></script>
 </body>

@@ -31,14 +31,20 @@ jQuery(function ($) {
     var app = {
         init: function () {
             this.template = Handlebars.compile($('#info-template').html());
+            this.logTemplate = Handlebars.compile($('#log-template').html());
             this.data = [];
+            this.logData = [];
             this.selectedData = '';
+            this.autoReload = true;
             this.bindEvents();
             this.start();
         },
         bindEvents: function () {
-            $('#device-info').on('click', 'tr', this.select.bind(this));
-            $('#device-info').on('change', '.toggle', this.change.bind(this));
+            $('#device-info')
+                .on('click', 'tr', this.select.bind(this))
+                .on('change', '.toggle', this.change.bind(this));
+            $('#reload-ctrl-btn').on('click', 'label', this.toggleReload.bind(this));
+            $('#submit-cmd').on('click', this.pushCmd.bind(this));
         },
         start: function () {
             this.update();
@@ -50,7 +56,9 @@ jQuery(function ($) {
                 self.updateData(results);
                 self.render();
                 $('#loader').spin(false);
-                setTimeout(self.update.bind(self), UPDATE_INTERVAL);
+                if (self.autoReload) {
+                    setTimeout(self.update.bind(self), UPDATE_INTERVAL);
+                }
             });
         },
         updateData: function (datas) {
@@ -75,6 +83,31 @@ jQuery(function ($) {
             var $selected = $('#device-info').find('input[type="radio"]:checked');
             this.selectedData = $selected.val();
             $('#guid-text').val(this.selectedData);
+        },
+        toggleReload: function (e) {
+            console.log(e.target)
+            var $reloadCtrl = $(e.target).find('input[type="radio"]');
+            this.autoReload = $reloadCtrl.val() === 'ON';
+            $('#reload-ctrl-text').text($reloadCtrl.val());
+            if (this.autoReload) {
+                this.update();
+            }
+        },
+        pushCmd: function (e) {
+            var self = this;
+            e.preventDefault();
+            $('#log-loader').spin(spinOpts);
+            $.getJSON(restApiUrl1).then(function (results) {
+                var log = {log_at: '', log_comment: ''};
+                log.log_at = moment().format('YYYY-MM-DD, h:mm:ss a');
+                log.log_comment = 'dummy';
+                self.logData.unshift(log);
+                self.renderLog();
+                $('#log-loader').spin(false);
+            });
+        },
+        renderLog: function () {
+            $('#log-info').html(this.logTemplate(this.logData));
         }
     };
 
