@@ -2,9 +2,9 @@ jQuery(function ($) {
     'use strict';
 
     var UPDATE_INTERVAL = 10000;
-    var restApiUrl1 = 'json/data1.json';
-    var restApiUrl2 = 'json/data2.json';
-    // var restApiUrl='https://f12w3m8f3b.execute-api.us-west-2.amazonaws.com/beta/devicestatus?nsukey=s7GXS572h2AuMjlXwBF23OeZaKe5dmOM5Dq1Pa0i01%2F2FZBGtHcV4A6tS81wMMXF2%2FKrcAVhTQW2D%2FTILVDH850TAW1lqgIJLow6iCuiOEhIEmk9csJmg9rkYrcnXQfY1BVhZHCIOqa%2BG5aBSOivSVgwdiPz%2FCxPS0W6pJCueADGbUqMx%2Bsg1hlUzlwH8N0c';
+    var restApiUrl = '/mqtt_demo/restful/devicestatus';
+    var restApiPushUrl = '/mqtt_demo/restful/command';
+    var restApiUrlDummy = 'json/data1.json';
     var spinOpts = {
         lines: 13 // The number of lines to draw
         , length: 48 // The length of each line
@@ -36,6 +36,7 @@ jQuery(function ($) {
             this.logData = [];
             this.selectedData = '';
             this.autoReload = true;
+            this.autoReloadId = 0;
             this.bindEvents();
             this.start();
         },
@@ -52,12 +53,12 @@ jQuery(function ($) {
         update: function () {
             var self = this;
             $('#loader').spin(spinOpts);
-            $.getJSON(restApiUrl1).then(function (results) {
+            $.getJSON(restApiUrl).then(function (results) {
                 self.updateData(results);
                 self.render();
                 $('#loader').spin(false);
                 if (self.autoReload) {
-                    setTimeout(self.update.bind(self), UPDATE_INTERVAL);
+                    self.autoReloadId = setTimeout(self.update.bind(self), UPDATE_INTERVAL);
                 }
             });
         },
@@ -85,26 +86,34 @@ jQuery(function ($) {
             $('#guid-text').val(this.selectedData);
         },
         toggleReload: function (e) {
-            console.log(e.target)
             var $reloadCtrl = $(e.target).find('input[type="radio"]');
             this.autoReload = $reloadCtrl.val() === 'ON';
             $('#reload-ctrl-text').text($reloadCtrl.val());
             if (this.autoReload) {
                 this.update();
+            } else {
+                clearTimeout(this.autoReloadId);
             }
         },
         pushCmd: function (e) {
             var self = this;
             e.preventDefault();
             $('#log-loader').spin(spinOpts);
-            $.getJSON(restApiUrl1).then(function (results) {
-                var log = {log_at: '', log_comment: ''};
-                log.log_at = moment().format('YYYY-MM-DD, h:mm:ss a');
-                log.log_comment = 'dummy';
-                self.logData.unshift(log);
+            var data = {
+                guid: this.selectedData,
+                callback_name: $('#callback-text').val()
+            };
+            $.post(restApiPushUrl, data).then(function (results) {
+                self.updateLog(results);
                 self.renderLog();
                 $('#log-loader').spin(false);
             });
+        },
+        updateLog: function (result) {
+            var log = {log_at: '', log_comment: ''};
+            log.log_at = moment().format('YYYY-MM-DD, h:mm:ss a');
+            log.log_comment = result;
+            this.logData.unshift(log);
         },
         renderLog: function () {
             $('#log-info').html(this.logTemplate(this.logData));
