@@ -53,7 +53,7 @@ jQuery(function ($) {
         update: function () {
             var self = this;
             $('#loader').spin(spinOpts);
-            $.getJSON(restApiUrl).then(function (results) {
+            $.getJSON(restApiUrlDummy).then(function (results) {
                 self.updateData(results);
                 self.render();
                 $('#loader').spin(false);
@@ -65,15 +65,19 @@ jQuery(function ($) {
         updateData: function (datas) {
             var self = this;
             var guids = datas.guids;
-            this.selectedData = '';
+            if (_.indexOf(guids, this.selectedData) === -1) {
+                this.selectedData = '';
+            }
             this.data = [];
             _.each(guids, function (guid) {
                 self.data.push(_.extend({guid: guid}, datas[guid]));
             });
         },
         render: function () {
+            $('#device-info')
+                .html(this.template(this.data))
+                .find('input[value="' + this.selectedData + '"]').click();
             $('#guid-text').val(this.selectedData);
-            $('#device-info').html(this.template(this.data));
         },
         select: function (e) {
             $(e.currentTarget).parent().find('.info').removeClass('info');
